@@ -1,0 +1,40 @@
+name: Triggering Events
+# https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows
+
+on:
+# on定义工作流的触发条件是什么
+
+  ### https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#push
+  push:
+    branches:
+      # 过滤模式速查表（Filter patterns cheat sheet）：
+      #   https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+      - "example-branch/*"
+
+  ### https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#pull_request
+  pull_request:
+    ## 默认情况下，会由以下几种类型的事件触发：
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      # 包含 markdown 文件
+      - "03-core-features/filters/*.md"
+      # 排除 txt 文件
+      - "!03-core-features/filters/*.txt"
+
+  ### https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule
+  # schedule:
+  #   - cron: "0 0 * * *" # UTC 时间午夜（0 点）
+
+  ## 手动触发
+  workflow_dispatch:
+jobs:
+  echo-event:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Dump full event JSON
+        run: |
+          echo "=== $GITHUB_EVENT_NAME payload ==="
+          cat "$GITHUB_EVENT_PATH"

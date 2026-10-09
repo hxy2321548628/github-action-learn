@@ -1,0 +1,20 @@
+name: Workflow Iteration (Debug Env Vars)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # 想看到调试日志的实际效果，可以这样操作：
+  # 1. 不做任何修改直接运行（默认情况）
+  # 2. 把仓库 VAR 或 SECRET 中的 ACTIONS_STEP_DEBUG 设为 true
+  #    └─> （这会显示 step 中定义的调试日志）
+  # 3. 把仓库 VAR 或 SECRET 中的 ACTIONS_RUNNER_DEBUG 设为 true
+  #    └─> （这会显示来自运行器本身的调试日志）
+  log-at-various-levels:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Echo some things
+        run: |
+          echo "::debug::This is a debug message"
+          echo "::info::This is an info message"
+          echo "::warning::This is an warning message"
