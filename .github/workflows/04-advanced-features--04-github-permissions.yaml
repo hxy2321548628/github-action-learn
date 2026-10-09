@@ -17,19 +17,46 @@ on:
 # 所有权限类型
 ################
 # permissions:
-#   actions: read|write|none
+#   控制对 Actions 相关资源(workflow run、artifact、cache、secret 等)的访问。
+#   actions: read|write|none 
+
+#   管理 artifact attestations(供应链安全里证明"这个包确实是这个仓库构建的"的签名记录)。
 #   attestations: read|write|none
+
+#   对应 PR 上的 Checks 标签页(check runs、check suites)。
 #   checks: read|write|none
+
+#   控制仓库里的文件、commit、branch、tag、release。
 #   contents: read|write|none
+
+#   GitHub 的 Deployments API(部署记录、环境、部署状态)。
 #   deployments: read|write|none
+
+#   OIDC 令牌 ⭐ 无 read,只有 write/none
 #   id-token: write|none
+
+#   控制仓库的 Issues。
 #   issues: read|write|none
+
+#   访问 GitHub Models(GitHub 托管的 AI 模型推理 API)。
 #   models: read|none
+
+#   控制仓库的 Discussions(类似论坛的板块)。
 #   discussions: read|write|none
+
+#   控制 GitHub Packages(npm/Maven/Docker 等制品仓)。
 #   packages: read|write|none
+
+#   控制 GitHub Pages(静态站点,如项目文档站)。
 #   pages: read|write|none
+
+#   控制 Pull Requests。
 #   pull-requests: read|write|none
+
+#   控制 Code Scanning / 安全告警。
 #   security-events: read|write|none
+
+#   控制 commit statuses(PR 上那些 ✅❌ 的旧式状态)。
 #   statuses: read|write|none
 ################
 
