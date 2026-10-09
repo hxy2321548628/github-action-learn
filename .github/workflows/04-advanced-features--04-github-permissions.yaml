@@ -1,4 +1,4 @@
-name: 04-04Permissions
+name: 0404-Permissions
 on:
   workflow_dispatch:
 
@@ -40,8 +40,9 @@ jobs:
       pull-requests: read # 只能读取 PR 数据
     continue-on-error: true # 避免整个 workflow 失败
     steps:
+      # 把当前仓库的代码下载(clone)到 runner 的工作目录里。
       - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v5.0.0
-      
+
       - name: List the first 5 open PRs (allowed)
         run: gh pr list --limit 5
         env:
