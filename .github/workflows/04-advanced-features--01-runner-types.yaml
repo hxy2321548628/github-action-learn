@@ -1,0 +1,102 @@
+name: Runner types
+on:
+  # 手动触发
+  workflow_dispatch:
+
+jobs:
+  ######################################
+  #  GITHUB（微软）托管运行器
+  ######################################
+  #  GitHub 提供的托管运行器，实际运行在 Microsoft Azure 上。
+  #
+  #  开源项目可以享用一定的免费额度，Pro/Team/Enterprise 版 GitHub
+  #  订阅同样包含一定数量的可用分钟数（超出之后
+  #  按实际用量付费）。
+  #
+  #  这些运行器最容易上手（无需任何额外配置），
+  #  用掉免费额度也是合理的 —— 但只建议用在那些不在你生产部署
+  #  关键路径上的 workflow 中。如果用量超出配额，我建议看看下面
+  #  这些性能更高（也更实惠）的方案！
+  ######################################
+  github-hosted-ubuntu-vm:
+    name: Ubuntu 24.04 VM
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Show runner info
+        run: |
+          echo "Hello from ${{ runner.os }}-${{ runner.arch }}"
+          echo "Runner name (type): ${{ runner.name }}"
+
+  github-hosted-windows-vm:
+    name: Windows 2022 VM
+    runs-on: windows-2022
+    steps:
+      - name: Show runner info
+        shell: pwsh
+        run: |
+          echo "Hello from ${{ runner.os }}-${{ runner.arch }}"
+          echo "Runner name (type): ${{ runner.name }}"
+
+  github-hosted-macos-vm:
+    name: macOS 14 VM
+    runs-on: macos-14
+    steps:
+      - name: Show runner info
+        run: |
+          echo "Hello from ${{ runner.os }}-${{ runner.arch }}"
+          echo "Runner name (type): ${{ runner.name }}"
+
+  # alphine是一个非常轻量级的 Linux 发行版
+  alpine-container-on-github-hosted-ubuntu-vm:
+    name: Alpine container on Ubuntu VM
+    runs-on: ubuntu-24.04
+    container:
+      image: alpine:3.20
+    steps:
+      - name: Show runner info
+        run: |
+          echo "Hello from ${{ runner.os }}-${{ runner.arch }}"
+          echo "Runner name (type): ${{ runner.name }}"
+          echo "Container image:   $(grep PRETTY_NAME /etc/os-release)"
+
+  ######################################
+  #  第三方托管运行器
+  ######################################
+  #  有些公司专门托管 GitHub Action 运行器，用更少的钱提供更高的性能
+  #
+  #  其中一家恰好就是本课程的赞助商！🙏
+  #
+  #  ✨ Namespace Labs (https://namespace.so/) ✨
+  #
+  #  改用他们的运行器，很可能可以大幅缩短构建时间（并降低 CI 账单）
+  #  而且只需要改动一行 yaml：
+  #
+  #  - runs-on: ubuntu-24.04
+  #  + runs-on: namespace-profile-default # 截至 2025 年 7 月，默认镜像是 Ubuntu 22.04
+  #
+  #  （他们也提供 MacOS 和 Windows 运行器！）
+  ######################################
+  namespace-ubuntu-vm:
+    name: Namespace Ubuntu VM
+    runs-on: namespace-profile-default
+    steps:
+      - name: Show runner info
+        run: |
+          echo "Hello from ${{ runner.os }}-${{ runner.arch }}"
+          echo "Runner name (type): ${{ runner.name }}"
+
+  ######################################
+  #  自托管运行器
+  ######################################
+  #  也有办法自托管 GitHub Action 运行器。
+  #
+  #  它们可以提供廉价的计算资源，但运维开销也更大。
+  #  它们还允许你在自己的 VPC 内执行任务 —— 这一点对你的业务是否重要，取决于你的具体情况
+  #
+  #  几种最流行的做法：
+  #    - https://runs-on.com/ （把 job 作为 AWS 中的 EC2 实例来运行）
+  #    - https://github.com/actions/actions-runner-controller （在任意 Kubernetes 集群中运行 job）
+  #    - https://docs.railway.com/tutorials/github-actions-runners （在 Railway 上运行 job）
+  #
+  #  这些方案如何配置与使用超出了本课程范围，留给读者作为练习
+  ######################################
