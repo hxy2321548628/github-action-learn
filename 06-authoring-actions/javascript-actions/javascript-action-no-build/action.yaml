@@ -1,0 +1,13 @@
+name: 'Hello World'
+description: 'Greet someone and record the time'
+inputs:
+  who-to-greet: # input 的 id
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+outputs:
+  time: # output 的 id
+    description: 'The time we greeted you'
+runs:
+  using: 'node20'
+  main: 'index.js'

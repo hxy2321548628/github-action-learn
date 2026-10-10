@@ -1,0 +1,18 @@
+name: Hello (Python)
+description: Greet someone and expose a greeting output
+inputs:
+  who-to-greet:
+    description: Name to greet
+    required: true
+    default: World
+outputs:
+  greeting:
+    description: The greeting that was printed
+runs:
+  using: docker
+  # 方案 A —— 让 GitHub 每次运行都基于 Dockerfile 重新构建
+  image: Dockerfile
+  # 方案 B —— 使用预构建镜像，避免重复构建：
+  # image: docker://ghcr.io/your-org/hello-python-action:v1
+  args:
+    - ${{ inputs.who-to-greet }}

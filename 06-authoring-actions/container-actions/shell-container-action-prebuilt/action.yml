@@ -1,0 +1,21 @@
+name: 'The name of your action here'
+description: 'Provide a description here'
+author: 'Your name or organization here'
+
+# 在这里定义你的 inputs。
+inputs:
+  who-to-greet:
+    description: 'Your input description here'
+    required: true
+    default: 'World'
+
+# 在这里定义你的 outputs。
+outputs:
+  greeting:
+    description: 'Your output description here'
+
+runs:
+  using: docker
+  image: sidpalas/shell-container-action:v0.0.1 # 指定公共镜像可以跳过构建步骤
+  env:
+    INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
