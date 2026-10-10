@@ -1,0 +1,37 @@
+name: 0602-Reusable Workflow Source
+
+on:
+  workflow_call:
+    inputs:
+      foo:
+        required: true
+        type: string
+      environment:
+        description: "Target GitHub environment name (e.g. staging, production)"
+        required: true
+        type: string
+    secrets:
+      # 注意：这里只能传仓库/组织级的 secret，不能传 environment secret
+      EXAMPLE_REPOSITORY_SECRET:
+        required: true
+
+jobs:
+  reusable-workflow-job:
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: job in reusable workflow
+        env:
+          # 显式传入的 input
+          FOO: ${{ inputs.foo }}
+          # 来自仓库/组织级
+          EXAMPLE_REPOSITORY_SECRET: ${{ secrets.EXAMPLE_REPOSITORY_SECRET }}
+          # 来自上面选中的 **environment**
+          EXAMPLE_ENVIRONMENT_SECRET: ${{ secrets.EXAMPLE_ENVIRONMENT_SECRET }}
+          EXAMPLE_ENVIRONMENT_VARIABLE: ${{ vars.EXAMPLE_ENVIRONMENT_VARIABLE }}
+        run: |
+          echo "FOO                           = $FOO"
+          echo "EXAMPLE_REPOSITORY_SECRET     = $EXAMPLE_REPOSITORY_SECRET"
+          echo "EXAMPLE_ENVIRONMENT_SECRET    = $EXAMPLE_ENVIRONMENT_SECRET"
+          echo "EXAMPLE_ENVIRONMENT_VARIABLE  = $EXAMPLE_ENVIRONMENT_VARIABLE"
